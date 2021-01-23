@@ -29,7 +29,16 @@ client.connect(err => {
                 res.send(result.insertedCount > 0)
             });
     });
+
+    app.get('/viewAllPatient', (req, res) => {
+        patientCollection.find({})
+            .toArray((error, documents) => {
+                res.send(documents)
+            })
+    });
+
 });
+
 
 
 app.listen(PORT, console.log(" Database connection success"));
