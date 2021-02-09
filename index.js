@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
+
 require('dotenv').config();
 
 const uri = `mongodb+srv://drRathin:${process.env.DB_PASS}@cluster0.0zkhs.mongodb.net/<dbname>?retryWrites=true&w=majority`;
@@ -34,6 +36,13 @@ client.connect(err => {
         patientCollection.find({})
             .toArray((error, documents) => {
                 res.send(documents)
+            })
+    });
+
+    app.delete('/deletePatient/:id', (req, res) => {
+        patientCollection.deleteOne({ _id: ObjectId(req.params.id) })
+            .then(result => {
+                res.send(result.deletedCount > 0)
             })
     });
 
