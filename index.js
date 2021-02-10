@@ -25,7 +25,6 @@ client.connect(err => {
 
     app.post('/addPatient', (req, res) => {
         const patientData = req.body;
-        console.log(patientData);
         patientCollection.insertOne(patientData)
             .then(result => {
                 res.send(result.insertedCount > 0)
@@ -45,9 +44,7 @@ client.connect(err => {
                 res.send(result.deletedCount > 0)
             })
     });
-
 });
-
 
 
 app.listen(process.env.PORT || port);
