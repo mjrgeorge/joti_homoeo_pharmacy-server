@@ -44,7 +44,26 @@ client.connect(err => {
                 res.send(result.deletedCount > 0)
             })
     });
+
+    app.patch('/updatePatient/:id', (req, res) => {
+        patientCollection.updateOne({ _id: ObjectId(req.params.id) },
+            {
+                $set: { patientName: req.body.patientName, serialNumber: req.body.serialNumber, phone: req.body.phone, disease: req.body.disease, treatment: req.body.treatment, age: req.body.age, totalBill: req.body.totalBill, paidBill: req.body.paidBill }
+            })
+            .then(result => {
+                res.send(result.modifiedCount > 0)
+            })
+    });
+
+    app.get('/patient/:id', (req, res) => {
+        console.log(ObjectId(req.params.id))
+        patientCollection.find({ _id: ObjectId(req.params.id) })
+            .toArray((error, documents) => {
+                res.send(documents[0])
+            })
+    });
 });
 
 
-app.listen(process.env.PORT || port);
+// app.listen(process.env.PORT || port);
+app.listen(port, () => console.log(`listening on port${port}`));
