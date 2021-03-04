@@ -16,7 +16,7 @@ app.use(cors());
 const port = 30001;
 
 app.get('/', (req, res) => {
-    res.send("hello from db it's working working");
+    res.send("Hello from DB it's Working Working");
 });
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -56,7 +56,6 @@ client.connect(err => {
     });
 
     app.get('/patient/:id', (req, res) => {
-        console.log(ObjectId(req.params.id))
         patientCollection.find({ _id: ObjectId(req.params.id) })
             .toArray((error, documents) => {
                 res.send(documents[0])
@@ -65,5 +64,5 @@ client.connect(err => {
 });
 
 
-app.listen(process.env.PORT || port);
 // app.listen(port, () => console.log(`listening on port${port}`));
+app.listen(process.env.PORT || port);
