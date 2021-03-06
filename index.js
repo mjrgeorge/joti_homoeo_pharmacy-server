@@ -48,7 +48,7 @@ client.connect(err => {
     app.patch('/updatePatient/:id', (req, res) => {
         patientCollection.updateOne({ _id: ObjectId(req.params.id) },
             {
-                $set: { patientName: req.body.patientName, serialNumber: req.body.serialNumber, phone: req.body.phone, disease: req.body.disease, treatment: req.body.treatment, age: req.body.age, totalBill: req.body.totalBill, paidBill: req.body.paidBill }
+                $set: { patientName: req.body.patientName, pageNumber: req.body.pageNumber, phone: req.body.phone, disease: req.body.disease, treatment: req.body.treatment, age: req.body.age, totalBill: req.body.totalBill, paidBill: req.body.paidBill }
             })
             .then(result => {
                 res.send(result.modifiedCount > 0)
@@ -61,8 +61,17 @@ client.connect(err => {
                 res.send(documents[0])
             })
     });
+
+    app.post('/patientListByDate', (req, res) => {
+        const date = req.body;
+    patientCollection.find({date: date.date})
+        .toArray((error, documents) => {
+            res.send(documents)
+        })
+    })
+
 });
 
 
-// app.listen(port, () => console.log(`listening on port${port}`));
+// app.listen(port, () => console.log(`listening on port ${port}`));
 app.listen(process.env.PORT || port);
